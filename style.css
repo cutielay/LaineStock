@@ -1,244 +1,511 @@
-const OWNER_PASSWORD = "Lainepwss001!";
-
-let data = {
-  robux: [
-    {
-      name: "10,000 Robux",
-      price: "$30.00",
-      image: "https://cdn-icons-png.flaticon.com/512/217/217853.png",
-      desc: "10,000 Robux package."
-    },
-    {
-      name: "50,000 Robux",
-      price: "$140.00",
-      image: "https://cdn-icons-png.flaticon.com/512/217/217853.png",
-      desc: "50,000 Robux package."
-    }
-  ],
-  limiteds: []
-};
-
-let contacts = {
-  title: "Contact Me",
-  discord: "Discord: yourname",
-  twitter: "Twitter: @handle",
-  extra: "Message me for prices, stock, and questions."
-};
-
-const crosshair = document.querySelector(".crosshair");
-
-document.addEventListener("mousemove", e => {
-  crosshair.style.left = e.clientX + "px";
-  crosshair.style.top = e.clientY + "px";
-});
-
-function toggleDark() {
-  document.body.classList.toggle("dark");
-  localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+* {
+  box-sizing: border-box;
 }
 
-window.addEventListener("load", () => {
-  load();
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #090014;
+  color: white;
+  overflow: hidden;
+}
 
-  if (localStorage.getItem("darkMode") === "true") {
-    document.body.classList.add("dark");
+.bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 10%, #ff2fd6, transparent 30%),
+    radial-gradient(circle at 80% 20%, #7b3cff, transparent 35%),
+    radial-gradient(circle at 50% 100%, #31105f, transparent 45%);
+  filter: blur(50px);
+  opacity: .8;
+  z-index: -1;
+}
+
+#loader {
+  position: fixed;
+  inset: 0;
+  background: #090014;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+
+.loader-content {
+  text-align: center;
+}
+
+.crown {
+  font-size: 55px;
+  color: #ff4fe3;
+  text-shadow: 0 0 25px #ff4fe3;
+}
+
+.loader-content h1 {
+  font-size: 62px;
+  letter-spacing: 12px;
+  background: linear-gradient(90deg, #ff4fe3, #875cff);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.loader-content p {
+  letter-spacing: 8px;
+  color: #c9b8ff;
+}
+
+.loader-content span {
+  display: block;
+  margin: 35px 0 15px;
+  color: #ddd;
+}
+
+.load-bar {
+  width: 500px;
+  height: 20px;
+  border: 2px solid #7b5cff;
+  border-radius: 50px;
+  padding: 3px;
+}
+
+.load-bar div {
+  height: 100%;
+  width: 0%;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #ff3edb, #8f65ff);
+  animation: load 2s forwards;
+}
+
+@keyframes load {
+  to { width: 100%; }
+}
+
+.app {
+  height: 100vh;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.top-header {
+  padding: 22px;
+  border-radius: 24px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  backdrop-filter: blur(18px);
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo div {
+  font-size: 34px;
+  color: #ff4fe3;
+}
+
+.logo h2 {
+  margin: 5px 0 0;
+  letter-spacing: 4px;
+  font-size: 30px;
+  background: linear-gradient(90deg, #ff4fe3, #8a5cff);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.logo p {
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: #aaa;
+}
+
+.top-tabs {
+  display: flex;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,.18);
+  padding-bottom: 0;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  position: relative;
+  border: none;
+  background: transparent;
+  color: #d8caff;
+  padding: 15px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 12px 12px 0 0;
+  transition: .25s;
+}
+
+.tab-btn:hover {
+  background: rgba(255,255,255,.08);
+  color: white;
+}
+
+.tab-btn.active {
+  color: white;
+  background: rgba(255,255,255,.08);
+}
+
+.tab-btn.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff9d00, #ff3edb);
+  border-radius: 10px;
+}
+
+.login-inline {
+  margin-top: 18px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.login-inline input {
+  width: 260px;
+  padding: 13px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+}
+
+.login-inline button {
+  padding: 13px 18px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #d93cff, #7b35db);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#error {
+  color: #ff6b9d;
+  font-size: 12px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.main {
+  flex: 1;
+  padding: 35px;
+  border-radius: 24px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  backdrop-filter: blur(15px);
+  overflow-y: auto;
+}
+
+.search {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search input {
+  width: 300px;
+  padding: 15px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.12);
+  outline: none;
+  background: rgba(255,255,255,.08);
+  color: white;
+}
+
+.page {
+  display: none;
+  animation: fade .35s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+.page h1 {
+  font-size: 38px;
+}
+
+.subtitle {
+  color: #b8addd;
+  font-size: 17px;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 26px;
+  margin-top: 32px;
+}
+
+.card {
+  min-height: 360px;
+  padding: 28px;
+  border-radius: 24px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(221,72,255,.35);
+  text-align: center;
+  transition: .25s;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 30px rgba(255,60,220,.38);
+}
+
+.card img {
+  display: block;
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  margin: 0 auto 22px auto;
+}
+
+.fallback-icon {
+  font-size: 110px;
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.card h2 {
+  margin: 10px 0;
+  font-size: 30px;
+}
+
+.card p {
+  color: #ff68e8;
+  font-size: 27px;
+  font-weight: bold;
+}
+
+.contact-box {
+  max-width: 700px;
+  padding: 35px;
+  border-radius: 24px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(221,72,255,.35);
+  margin-top: 30px;
+}
+
+.contact-box h2 {
+  font-size: 32px;
+}
+
+.contact-box p {
+  font-size: 20px;
+  color: #ff8eed;
+}
+
+.owner-panel {
+  position: fixed;
+  right: 18px;
+  top: 18px;
+  width: 360px;
+  height: calc(100vh - 36px);
+  padding: 26px;
+  border-radius: 24px;
+  background: rgba(73,10,72,.94);
+  border: 1px solid rgba(255,255,255,.15);
+  backdrop-filter: blur(18px);
+  overflow-y: auto;
+  z-index: 999;
+}
+
+.owner-panel input,
+.owner-panel select,
+.owner-panel textarea {
+  width: 100%;
+  padding: 15px;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+  margin-bottom: 12px;
+}
+
+.owner-panel textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.owner-panel button {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  margin-bottom: 12px;
+  color: white;
+  cursor: pointer;
+  background: linear-gradient(90deg, #d93cff, #7b35db);
+  font-weight: bold;
+}
+
+.close {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 38px !important;
+  height: 38px;
+  padding: 0 !important;
+  border-radius: 12px !important;
+}
+
+.line {
+  height: 1px;
+  background: rgba(255,255,255,.12);
+  margin: 22px 0;
+}
+
+.manage-card {
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.06);
+  margin-bottom: 12px;
+  border: 1px solid rgba(255,255,255,.1);
+}
+
+.manage-card small {
+  color: #cfc2ff;
+}
+
+.danger {
+  background: linear-gradient(90deg, #b73065, #c23882) !important;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.78);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Bigger popup UI */
+.modal-card {
+  width: 740px;
+  max-width: 92%;
+  min-height: 560px;
+  padding: 55px;
+  border-radius: 34px;
+  background: rgba(25,10,45,.97);
+  border: 1px solid rgba(255,255,255,.16);
+  text-align: center;
+  position: relative;
+  animation: modalOpen .25s ease;
+  box-shadow: 0 0 50px rgba(180,60,255,.25);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes modalOpen {
+  from { transform: scale(.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-card img {
+  display: block;
+  width: 360px;
+  height: 360px;
+  object-fit: contain;
+  margin: 0 auto 28px auto;
+  border-radius: 16px;
+}
+
+.modal-card h2 {
+  margin: 12px 0;
+  font-size: 40px;
+}
+
+.modal-card p {
+  color: #ff67e4;
+  font-size: 25px;
+}
+
+.modal-info {
+  margin-top: 25px;
+  color: #ccc;
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.modal-close {
+  position: absolute;
+  right: 22px;
+  top: 22px;
+  border: none;
+  background: rgba(255,255,255,.08);
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+@media (max-width: 900px) {
+  body {
+    overflow: auto;
   }
 
-  setTimeout(() => {
-    document.getElementById("loader").style.opacity = "0";
-    document.getElementById("loader").style.transition = ".5s";
-
-    setTimeout(() => {
-      document.getElementById("loader").style.display = "none";
-    }, 500);
-  }, 1800);
-});
-
-function switchTab(e, id) {
-  document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
-  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-
-  document.getElementById(id).classList.add("active");
-
-  if (e && e.currentTarget.classList.contains("tab-btn")) {
-    e.currentTarget.classList.add("active");
-  }
-}
-
-function showLoginBox() {
-  document.getElementById("loginBox").classList.toggle("hidden");
-}
-
-function login() {
-  const pass = document.getElementById("password").value;
-
-  if (pass === OWNER_PASSWORD) {
-    document.getElementById("ownerPanel").classList.remove("hidden");
-    document.getElementById("loginBox").classList.add("hidden");
-    document.getElementById("error").innerText = "";
-    sessionStorage.setItem("loggedIn", "true");
-  } else {
-    document.getElementById("error").innerText = "Wrong password!";
-  }
-}
-
-function closeOwner() {
-  document.getElementById("ownerPanel").classList.add("hidden");
-}
-
-function updateTitle() {
-  const val = document.getElementById("titleInput").value.trim();
-  if (!val) return;
-
-  document.getElementById("shopTitle").innerText = val;
-  localStorage.setItem("shopTitle", val);
-}
-
-function addItem() {
-  const name = document.getElementById("itemName").value.trim();
-  const price = document.getElementById("itemPrice").value.trim();
-  const image = document.getElementById("itemImage").value.trim();
-  const desc = document.getElementById("itemDesc").value.trim();
-  const tab = document.getElementById("itemTab").value;
-
-  if (!name || !price) return;
-
-  data[tab].push({
-    name,
-    price,
-    image,
-    desc: desc || `${name} is currently listed in LaineStock.`
-  });
-
-  document.getElementById("itemName").value = "";
-  document.getElementById("itemPrice").value = "";
-  document.getElementById("itemImage").value = "";
-  document.getElementById("itemDesc").value = "";
-
-  save();
-  render();
-}
-
-function updateContacts() {
-  contacts.title = document.getElementById("contactTitleInput").value.trim() || contacts.title;
-  contacts.discord = document.getElementById("discordInput").value.trim() || contacts.discord;
-  contacts.twitter = document.getElementById("twitterInput").value.trim() || contacts.twitter;
-  contacts.extra = document.getElementById("extraInput").value.trim() || contacts.extra;
-
-  localStorage.setItem("contacts", JSON.stringify(contacts));
-  renderContacts();
-
-  document.getElementById("contactTitleInput").value = "";
-  document.getElementById("discordInput").value = "";
-  document.getElementById("twitterInput").value = "";
-  document.getElementById("extraInput").value = "";
-}
-
-function renderContacts() {
-  document.getElementById("contactTitle").innerText = contacts.title;
-  document.getElementById("discordText").innerText = contacts.discord;
-  document.getElementById("twitterText").innerText = contacts.twitter;
-  document.getElementById("extraText").innerText = contacts.extra;
-}
-
-function render() {
-  renderGrid("robux", "robuxGrid");
-  renderGrid("limiteds", "limitedsGrid");
-  renderManage();
-  renderContacts();
-}
-
-function renderGrid(type, gridId) {
-  const grid = document.getElementById(gridId);
-  const search = document.getElementById("searchInput").value.toLowerCase();
-
-  grid.innerHTML = "";
-
-  data[type]
-    .filter(item => item.name.toLowerCase().includes(search))
-    .forEach((item, index) => {
-      grid.innerHTML += `
-        <div class="card" onclick="openItem('${type}', ${index})">
-          ${
-            item.image
-              ? `<img src="${item.image}">`
-              : `<div class="fallback-icon">♡</div>`
-          }
-          <h2>${item.name}</h2>
-          <p>${item.price}</p>
-        </div>
-      `;
-    });
-}
-
-function renderManage() {
-  const box = document.getElementById("manageItems");
-  box.innerHTML = "";
-
-  ["robux", "limiteds"].forEach(type => {
-    data[type].forEach((item, index) => {
-      box.innerHTML += `
-        <div class="manage-card">
-          <strong>${item.name}</strong><br>
-          <small>${item.price}</small><br><br>
-          <button onclick="deleteItem('${type}', ${index})">Delete</button>
-        </div>
-      `;
-    });
-  });
-}
-
-function openItem(type, index) {
-  const item = data[type][index];
-
-  document.getElementById("modalTitle").innerText = item.name;
-  document.getElementById("modalPrice").innerText = item.price;
-  document.getElementById("modalDescription").innerText = item.desc;
-
-  const img = document.getElementById("modalImage");
-
-  if (item.image) {
-    img.src = item.image;
-    img.style.display = "block";
-  } else {
-    img.style.display = "none";
+  .app {
+    height: auto;
   }
 
-  document.getElementById("itemModal").classList.remove("hidden");
-}
-
-function closeModal() {
-  document.getElementById("itemModal").classList.add("hidden");
-}
-
-function deleteItem(type, index) {
-  data[type].splice(index, 1);
-  save();
-  render();
-}
-
-function clearItems() {
-  data = { robux: [], limiteds: [] };
-  save();
-  render();
-}
-
-function save() {
-  localStorage.setItem("shopData", JSON.stringify(data));
-}
-
-function load() {
-  const saved = localStorage.getItem("shopData");
-  const savedTitle = localStorage.getItem("shopTitle");
-  const savedContacts = localStorage.getItem("contacts");
-
-  if (saved) data = JSON.parse(saved);
-  if (savedTitle) document.getElementById("shopTitle").innerText = savedTitle;
-  if (savedContacts) contacts = JSON.parse(savedContacts);
-
-  if (sessionStorage.getItem("loggedIn") === "true") {
-    document.getElementById("ownerPanel").classList.remove("hidden");
+  .top-tabs {
+    flex-wrap: wrap;
   }
 
-  render();
+  .main {
+    padding: 22px;
+  }
+
+  .owner-panel {
+    width: calc(100% - 36px);
+    left: 18px;
+  }
+
+  .loader-content h1 {
+    font-size: 36px;
+  }
+
+  .load-bar {
+    width: 280px;
+  }
+
+  .modal-card {
+    width: 92%;
+    min-height: auto;
+    padding: 35px;
+  }
+
+  .modal-card img {
+    width: 230px;
+    height: 230px;
+  }
 }
