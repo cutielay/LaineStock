@@ -21,7 +21,7 @@ const db = getFirestore(app);
 const shopRef = doc(db, "shop", "mainData");
 
 const HASHED_PASSWORD =
-  "3d903b3df0d97f4a4d0efdd93a1bb4e777e02f4f4b92cf1db5fc905c82c5d7c8";
+  "ecd71870d1963316b3d4d90f4f4f605866f5e7a4b8e5d82e8df9b9b7d6f0f8d8";
 
 let data = {
   robux: [],
