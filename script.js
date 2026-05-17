@@ -1,11 +1,13 @@
-const OWNER_PASSWORD = "Lainepwss001!";
+const OWNER_PASSWORD = "test123";
 
 let data = {
   robux: [
     {
       name: "3.4 PER 300 ROBUX",
+      price: "$3.40",
+      image: "",
       desc: "STOCK 93K."
-    },
+    }
   ],
   limiteds: []
 };
@@ -14,36 +16,43 @@ let contacts = {
   title: "Contact Me",
   discord: "Discord: cutielay",
   twitter: "Twitter: @Lainepws",
-  extra: "DM me on discord for faster reply time!"
+  extra: "DM me on Discord for faster reply time!"
 };
 
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
   load();
 
+  document.querySelectorAll("[data-tab]").forEach(btn => {
+    btn.addEventListener("click", e => switchTab(e, btn.dataset.tab));
+  });
+
+  document.getElementById("ownerBtn").addEventListener("click", showLoginBox);
+  document.getElementById("loginBtn").addEventListener("click", login);
+  document.getElementById("closeOwnerBtn").addEventListener("click", closeOwner);
+  document.getElementById("updateTitleBtn").addEventListener("click", updateTitle);
+  document.getElementById("addItemBtn").addEventListener("click", addItem);
+  document.getElementById("updateContactsBtn").addEventListener("click", updateContacts);
+  document.getElementById("clearItemsBtn").addEventListener("click", clearItems);
+  document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+  document.getElementById("searchInput").addEventListener("input", render);
+
   setTimeout(() => {
-    document.getElementById("loader").style.opacity = "0";
-    document.getElementById("loader").style.transition = ".5s";
+    const loader = document.getElementById("loader");
+    loader.style.opacity = "0";
+    loader.style.transition = ".5s";
 
     setTimeout(() => {
-      document.getElementById("loader").style.display = "none";
+      loader.style.display = "none";
     }, 500);
-  }, 1800);
+  }, 1200);
 });
 
 function switchTab(e, id) {
-  document.querySelectorAll(".page").forEach(page => {
-    page.classList.remove("active");
-  });
-
-  document.querySelectorAll(".tab-btn").forEach(btn => {
-    btn.classList.remove("active");
-  });
+  document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
 
   document.getElementById(id).classList.add("active");
-
-  if (e && e.currentTarget.classList.contains("tab-btn")) {
-    e.currentTarget.classList.add("active");
-  }
+  e.currentTarget.classList.add("active");
 }
 
 function showLoginBox() {
@@ -69,7 +78,6 @@ function closeOwner() {
 
 function updateTitle() {
   const val = document.getElementById("titleInput").value.trim();
-
   if (!val) return;
 
   document.getElementById("shopTitle").innerText = val;
@@ -83,7 +91,7 @@ function addItem() {
   const desc = document.getElementById("itemDesc").value.trim();
   const tab = document.getElementById("itemTab").value;
 
-  if (!name || !price) return;
+  if (!name || !price) return alert("Add an item name and price.");
 
   data[tab].push({
     name,
@@ -108,13 +116,7 @@ function updateContacts() {
   contacts.extra = document.getElementById("extraInput").value.trim() || contacts.extra;
 
   localStorage.setItem("contacts", JSON.stringify(contacts));
-
   renderContacts();
-
-  document.getElementById("contactTitleInput").value = "";
-  document.getElementById("discordInput").value = "";
-  document.getElementById("twitterInput").value = "";
-  document.getElementById("extraInput").value = "";
 }
 
 function renderContacts() {
@@ -140,17 +142,17 @@ function renderGrid(type, gridId) {
   data[type]
     .filter(item => item.name.toLowerCase().includes(search))
     .forEach((item, index) => {
-      grid.innerHTML += `
-        <div class="card" onclick="openItem('${type}', ${index})">
-          ${
-            item.image
-            ? `<img src="${item.image}">`
-            : `<div class="fallback-icon">💎</div>`
-          }
-          <h2>${item.name}</h2>
-          <p>${item.price}</p>
-        </div>
+      const card = document.createElement("div");
+      card.className = "card";
+      card.onclick = () => openItem(type, index);
+
+      card.innerHTML = `
+        ${item.image ? `<img src="${item.image}" alt="${item.name}">` : `<div class="fallback-icon">💎</div>`}
+        <h2>${item.name}</h2>
+        <p>${item.price}</p>
       `;
+
+      grid.appendChild(card);
     });
 }
 
@@ -160,13 +162,20 @@ function renderManage() {
 
   ["robux", "limiteds"].forEach(type => {
     data[type].forEach((item, index) => {
-      box.innerHTML += `
-        <div class="manage-card">
-          <strong>${item.name}</strong><br>
-          <small>${item.price}</small><br><br>
-          <button onclick="deleteItem('${type}', ${index})">Delete</button>
-        </div>
+      const div = document.createElement("div");
+      div.className = "manage-card";
+
+      div.innerHTML = `
+        <strong>${item.name}</strong><br>
+        <small>${item.price}</small><br><br>
       `;
+
+      const btn = document.createElement("button");
+      btn.innerText = "Delete";
+      btn.onclick = () => deleteItem(type, index);
+
+      div.appendChild(btn);
+      box.appendChild(div);
     });
   });
 }
@@ -176,8 +185,7 @@ function openItem(type, index) {
 
   document.getElementById("modalTitle").innerText = item.name;
   document.getElementById("modalPrice").innerText = item.price;
-  document.getElementById("modalDescription").innerText =
-    item.desc || `${item.name} is currently listed in LaineStock.`;
+  document.getElementById("modalDescription").innerText = item.desc;
 
   const img = document.getElementById("modalImage");
 
@@ -202,6 +210,8 @@ function deleteItem(type, index) {
 }
 
 function clearItems() {
+  if (!confirm("Clear all items?")) return;
+
   data = {
     robux: [],
     limiteds: []
