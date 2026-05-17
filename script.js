@@ -1,4 +1,5 @@
-const OWNER_PASSWORD = "Lainepwss001!";
+const HASHED_PASSWORD =
+  "3d903b3df0d97f4a4d0efdd93a1bb4e777e02f4f4b92cf1db5fc905c82c5d7c8";
 
 let data = {
   robux: [],
@@ -25,6 +26,18 @@ window.addEventListener("load", () => {
   }, 1800);
 });
 
+async function hashPassword(password) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+  return hashArray
+    .map(byte => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+
 function switchTab(e, id) {
   document.querySelectorAll(".page").forEach(page => {
     page.classList.remove("active");
@@ -45,10 +58,12 @@ function showLoginBox() {
   document.getElementById("loginBox").classList.toggle("hidden");
 }
 
-function login() {
+// Updated login with hidden password
+async function login() {
   const pass = document.getElementById("password").value;
+  const hashedInput = await hashPassword(pass);
 
-  if (pass === OWNER_PASSWORD) {
+  if (hashedInput === HASHED_PASSWORD) {
     document.getElementById("ownerPanel").classList.remove("hidden");
     document.getElementById("loginBox").classList.add("hidden");
     document.getElementById("error").innerText = "";
