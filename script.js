@@ -3,17 +3,9 @@ const OWNER_PASSWORD = "Lainepwss001!";
 let data = {
   robux: [
     {
-      name: "10,000 Robux",
-      price: "$30.00",
-      image: "https://cdn-icons-png.flaticon.com/512/217/217853.png",
-      desc: "10,000 Robux package. Clicked item information appears here."
+      name: "3.4 PER 300 ROBUX",
+      desc: "STOCK 93K."
     },
-    {
-      name: "50,000 Robux",
-      price: "$140.00",
-      image: "https://cdn-icons-png.flaticon.com/512/217/217853.png",
-      desc: "50,000 Robux package. Fast and simple listing display."
-    }
   ],
   limiteds: []
 };
