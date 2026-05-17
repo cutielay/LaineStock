@@ -1,553 +1,244 @@
-* {
-  box-sizing: border-box;
-  cursor: none;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fff3fb;
-  color: #3b1232;
-  overflow: hidden;
-}
-
-body.dark {
-  background: #120015;
-  color: white;
-}
-
-#loader {
-  position: fixed;
-  inset: 0;
-  background: #fff3fb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999999;
-}
-
-body.dark #loader {
-  background: #120015;
-}
-
-.loader-content {
-  text-align: center;
-}
-
-.crown {
-  font-size: 55px;
-  color: #ff4fcf;
-  text-shadow: 0 0 25px #ff4fcf;
-}
-
-.loader-content h1 {
-  font-size: 62px;
-  letter-spacing: 12px;
-  background: linear-gradient(90deg, #ff4fcf, #ff9ee6);
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-.loader-content p {
-  letter-spacing: 8px;
-  color: #9c5c8c;
-}
-
-.loader-content span {
-  display: block;
-  margin: 35px 0 15px;
-  color: #7c316b;
-}
-
-.load-bar {
-  width: 500px;
-  height: 20px;
-  border: 2px solid #ff4fcf;
-  border-radius: 50px;
-  padding: 3px;
-}
-
-.load-bar div {
-  height: 100%;
-  width: 0%;
-  border-radius: 50px;
-  background: linear-gradient(90deg, #ff4fcf, #ff9ee6);
-  animation: load 2s forwards;
-}
-
-@keyframes load {
-  to { width: 100%; }
-}
-
-.crosshair {
-  position: fixed;
-  width: 28px;
-  height: 28px;
-  border: 2px solid #ff4fcf;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 999998;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 18px #ff4fcf;
-}
-
-.crosshair::before,
-.crosshair::after {
-  content: "";
-  position: absolute;
-  background: #ff4fcf;
-}
-
-.crosshair::before {
-  width: 2px;
-  height: 42px;
-  left: 50%;
-  top: -9px;
-  transform: translateX(-50%);
-}
-
-.crosshair::after {
-  width: 42px;
-  height: 2px;
-  top: 50%;
-  left: -9px;
-  transform: translateY(-50%);
-}
-
-.bg {
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 10%, #ffb6ea, transparent 30%),
-    radial-gradient(circle at 80% 20%, #ffffff, transparent 35%),
-    radial-gradient(circle at 50% 100%, #ffd6f4, transparent 45%);
-  z-index: -1;
-}
-
-body.dark .bg {
-  background:
-    radial-gradient(circle at 20% 10%, #ff2fd6, transparent 30%),
-    radial-gradient(circle at 80% 20%, #7b3cff, transparent 35%),
-    radial-gradient(circle at 50% 100%, #31105f, transparent 45%);
-  filter: blur(45px);
-}
-
-.app {
-  height: 100vh;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.top-header,
-.main,
-.owner-panel,
-.contact-box,
-.card,
-.modal-card {
-  background: rgba(255,255,255,.75);
-  border: 1px solid rgba(255,105,205,.35);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 12px 35px rgba(255,90,190,.18);
-}
-
-body.dark .top-header,
-body.dark .main,
-body.dark .owner-panel,
-body.dark .contact-box,
-body.dark .card,
-body.dark .modal-card {
-  background: rgba(35,5,45,.85);
-  border-color: rgba(255,105,205,.3);
-}
-
-.top-header {
-  padding: 22px;
-  border-radius: 24px;
-}
-
-.logo {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.logo div {
-  font-size: 34px;
-  color: #ff4fcf;
-}
-
-.logo h2 {
-  margin: 5px 0 0;
-  letter-spacing: 4px;
-  font-size: 30px;
-  background: linear-gradient(90deg, #ff4fcf, #ff9ee6);
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-.logo p {
-  font-size: 12px;
-  letter-spacing: 4px;
-  color: #9c5c8c;
-}
-
-body.dark .logo p {
-  color: #ffd6f4;
-}
-
-.top-tabs {
-  display: flex;
-  gap: 12px;
-  border-bottom: 1px solid rgba(255,105,205,.25);
-  overflow-x: auto;
-}
-
-.tab-btn,
-.theme-toggle {
-  position: relative;
-  border: none;
-  background: transparent;
-  color: #7c316b;
-  padding: 15px 20px;
-  font-size: 15px;
-  font-weight: bold;
-  border-radius: 12px 12px 0 0;
-  transition: .25s;
-}
-
-body.dark .tab-btn,
-body.dark .theme-toggle {
-  color: #ffd6f4;
-}
-
-.tab-btn:hover,
-.theme-toggle:hover {
-  background: rgba(255,105,205,.15);
-}
-
-.tab-btn.active {
-  color: #ff22bd;
-  background: rgba(255,105,205,.12);
-}
-
-.tab-btn.active::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  height: 3px;
-  background: linear-gradient(90deg, #ff4fcf, #ffffff);
-  border-radius: 10px;
-}
-
-.login-inline {
-  margin-top: 18px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-input,
-select,
-textarea {
-  padding: 15px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,105,205,.35);
-  outline: none;
-  background: white;
-  color: #3b1232;
-}
-
-body.dark input,
-body.dark select,
-body.dark textarea {
-  background: #210025;
-  color: white;
-}
-
-.login-inline input {
-  width: 260px;
-}
-
-button {
-  cursor: none;
-}
-
-.login-inline button,
-.owner-panel button {
-  padding: 15px;
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(90deg, #ff4fcf, #ff9ee6);
-  color: white;
-  font-weight: bold;
-}
-
-#error {
-  color: #ff168e;
-  font-size: 12px;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.main {
-  flex: 1;
-  padding: 35px;
-  border-radius: 24px;
-  overflow-y: auto;
-}
-
-.search {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.search input {
-  width: 300px;
-}
-
-.page {
-  display: none;
-  animation: fade .35s ease;
-}
-
-.page.active {
-  display: block;
-}
-
-.page h1 {
-  font-size: 38px;
-}
-
-.subtitle {
-  color: #8d5b80;
-  font-size: 17px;
-}
-
-body.dark .subtitle {
-  color: #ffd6f4;
-}
-
-@keyframes fade {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 26px;
-  margin-top: 32px;
-}
-
-.card {
-  min-height: 380px;
-  padding: 28px;
-  border-radius: 24px;
-  text-align: center;
-  transition: .25s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 0 35px rgba(255,80,205,.4);
-}
-
-.card img {
-  display: block;
-  width: 230px;
-  height: 230px;
-  object-fit: contain;
-  margin: 0 auto 22px auto;
-}
-
-.fallback-icon {
-  font-size: 120px;
-  margin-bottom: 22px;
-}
-
-.card h2 {
-  margin: 10px 0;
-  font-size: 30px;
-}
-
-.card p {
-  color: #ff22bd;
-  font-size: 27px;
-  font-weight: bold;
-}
-
-.contact-box {
-  max-width: 700px;
-  padding: 35px;
-  border-radius: 24px;
-  margin-top: 30px;
-}
-
-.contact-box h2 {
-  font-size: 32px;
-}
-
-.contact-box p {
-  font-size: 20px;
-  color: #ff22bd;
-}
-
-.owner-panel {
-  position: fixed;
-  right: 18px;
-  top: 18px;
-  width: 360px;
-  height: calc(100vh - 36px);
-  padding: 26px;
-  border-radius: 24px;
-  overflow-y: auto;
-  z-index: 999;
-}
-
-.owner-panel input,
-.owner-panel select,
-.owner-panel textarea {
-  width: 100%;
-  margin-bottom: 12px;
-}
-
-.owner-panel textarea {
-  min-height: 90px;
-  resize: vertical;
-}
-
-.close {
-  position: absolute;
-  right: 14px;
-  top: 14px;
-  width: 38px !important;
-  height: 38px;
-  padding: 0 !important;
-}
-
-.line {
-  height: 1px;
-  background: rgba(255,105,205,.25);
-  margin: 22px 0;
-}
-
-.manage-card {
-  padding: 14px;
-  border-radius: 14px;
-  background: rgba(255,105,205,.1);
-  margin-bottom: 12px;
-}
-
-.manage-card small {
-  color: #8d5b80;
-}
-
-body.dark .manage-card small {
-  color: #ffd6f4;
-}
-
-.danger {
-  background: linear-gradient(90deg, #ff168e, #c23882) !important;
-}
-
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(255,210,245,.55);
-  backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-body.dark .modal {
-  background: rgba(0,0,0,.78);
-}
-
-.modal-card {
-  width: 780px;
-  max-width: 92%;
-  min-height: 590px;
-  padding: 55px;
-  border-radius: 34px;
-  text-align: center;
-  position: relative;
-  animation: modalOpen .25s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-@keyframes modalOpen {
-  from { transform: scale(.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-.modal-card img {
-  width: 390px;
-  height: 390px;
-  object-fit: contain;
-  margin: 0 auto 28px auto;
-  border-radius: 16px;
-}
-
-.modal-card h2 {
-  margin: 12px 0;
-  font-size: 40px;
-}
-
-.modal-card p {
-  color: #ff22bd;
-  font-size: 25px;
-}
-
-.modal-info {
-  margin-top: 25px;
-  font-size: 20px;
-  line-height: 1.5;
-}
-
-.modal-close {
-  position: absolute;
-  right: 22px;
-  top: 22px;
-  border: none;
-  background: rgba(255,105,205,.18);
-  color: #ff22bd;
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
-  font-size: 24px;
-}
-
-@media (max-width: 900px) {
-  body { overflow: auto; }
-  .app { height: auto; }
-  .top-tabs { flex-wrap: wrap; }
-  .main { padding: 22px; }
-  .owner-panel {
-    width: calc(100% - 36px);
-    left: 18px;
+const OWNER_PASSWORD = "Lainepwss001!";
+
+let data = {
+  robux: [
+    {
+      name: "10,000 Robux",
+      price: "$30.00",
+      image: "https://cdn-icons-png.flaticon.com/512/217/217853.png",
+      desc: "10,000 Robux package."
+    },
+    {
+      name: "50,000 Robux",
+      price: "$140.00",
+      image: "https://cdn-icons-png.flaticon.com/512/217/217853.png",
+      desc: "50,000 Robux package."
+    }
+  ],
+  limiteds: []
+};
+
+let contacts = {
+  title: "Contact Me",
+  discord: "Discord: yourname",
+  twitter: "Twitter: @handle",
+  extra: "Message me for prices, stock, and questions."
+};
+
+const crosshair = document.querySelector(".crosshair");
+
+document.addEventListener("mousemove", e => {
+  crosshair.style.left = e.clientX + "px";
+  crosshair.style.top = e.clientY + "px";
+});
+
+function toggleDark() {
+  document.body.classList.toggle("dark");
+  localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+}
+
+window.addEventListener("load", () => {
+  load();
+
+  if (localStorage.getItem("darkMode") === "true") {
+    document.body.classList.add("dark");
   }
-  .loader-content h1 {
-    font-size: 36px;
+
+  setTimeout(() => {
+    document.getElementById("loader").style.opacity = "0";
+    document.getElementById("loader").style.transition = ".5s";
+
+    setTimeout(() => {
+      document.getElementById("loader").style.display = "none";
+    }, 500);
+  }, 1800);
+});
+
+function switchTab(e, id) {
+  document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+
+  document.getElementById(id).classList.add("active");
+
+  if (e && e.currentTarget.classList.contains("tab-btn")) {
+    e.currentTarget.classList.add("active");
   }
-  .load-bar {
-    width: 280px;
+}
+
+function showLoginBox() {
+  document.getElementById("loginBox").classList.toggle("hidden");
+}
+
+function login() {
+  const pass = document.getElementById("password").value;
+
+  if (pass === OWNER_PASSWORD) {
+    document.getElementById("ownerPanel").classList.remove("hidden");
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("error").innerText = "";
+    sessionStorage.setItem("loggedIn", "true");
+  } else {
+    document.getElementById("error").innerText = "Wrong password!";
   }
-  .modal-card img {
-    width: 240px;
-    height: 240px;
+}
+
+function closeOwner() {
+  document.getElementById("ownerPanel").classList.add("hidden");
+}
+
+function updateTitle() {
+  const val = document.getElementById("titleInput").value.trim();
+  if (!val) return;
+
+  document.getElementById("shopTitle").innerText = val;
+  localStorage.setItem("shopTitle", val);
+}
+
+function addItem() {
+  const name = document.getElementById("itemName").value.trim();
+  const price = document.getElementById("itemPrice").value.trim();
+  const image = document.getElementById("itemImage").value.trim();
+  const desc = document.getElementById("itemDesc").value.trim();
+  const tab = document.getElementById("itemTab").value;
+
+  if (!name || !price) return;
+
+  data[tab].push({
+    name,
+    price,
+    image,
+    desc: desc || `${name} is currently listed in LaineStock.`
+  });
+
+  document.getElementById("itemName").value = "";
+  document.getElementById("itemPrice").value = "";
+  document.getElementById("itemImage").value = "";
+  document.getElementById("itemDesc").value = "";
+
+  save();
+  render();
+}
+
+function updateContacts() {
+  contacts.title = document.getElementById("contactTitleInput").value.trim() || contacts.title;
+  contacts.discord = document.getElementById("discordInput").value.trim() || contacts.discord;
+  contacts.twitter = document.getElementById("twitterInput").value.trim() || contacts.twitter;
+  contacts.extra = document.getElementById("extraInput").value.trim() || contacts.extra;
+
+  localStorage.setItem("contacts", JSON.stringify(contacts));
+  renderContacts();
+
+  document.getElementById("contactTitleInput").value = "";
+  document.getElementById("discordInput").value = "";
+  document.getElementById("twitterInput").value = "";
+  document.getElementById("extraInput").value = "";
+}
+
+function renderContacts() {
+  document.getElementById("contactTitle").innerText = contacts.title;
+  document.getElementById("discordText").innerText = contacts.discord;
+  document.getElementById("twitterText").innerText = contacts.twitter;
+  document.getElementById("extraText").innerText = contacts.extra;
+}
+
+function render() {
+  renderGrid("robux", "robuxGrid");
+  renderGrid("limiteds", "limitedsGrid");
+  renderManage();
+  renderContacts();
+}
+
+function renderGrid(type, gridId) {
+  const grid = document.getElementById(gridId);
+  const search = document.getElementById("searchInput").value.toLowerCase();
+
+  grid.innerHTML = "";
+
+  data[type]
+    .filter(item => item.name.toLowerCase().includes(search))
+    .forEach((item, index) => {
+      grid.innerHTML += `
+        <div class="card" onclick="openItem('${type}', ${index})">
+          ${
+            item.image
+              ? `<img src="${item.image}">`
+              : `<div class="fallback-icon">♡</div>`
+          }
+          <h2>${item.name}</h2>
+          <p>${item.price}</p>
+        </div>
+      `;
+    });
+}
+
+function renderManage() {
+  const box = document.getElementById("manageItems");
+  box.innerHTML = "";
+
+  ["robux", "limiteds"].forEach(type => {
+    data[type].forEach((item, index) => {
+      box.innerHTML += `
+        <div class="manage-card">
+          <strong>${item.name}</strong><br>
+          <small>${item.price}</small><br><br>
+          <button onclick="deleteItem('${type}', ${index})">Delete</button>
+        </div>
+      `;
+    });
+  });
+}
+
+function openItem(type, index) {
+  const item = data[type][index];
+
+  document.getElementById("modalTitle").innerText = item.name;
+  document.getElementById("modalPrice").innerText = item.price;
+  document.getElementById("modalDescription").innerText = item.desc;
+
+  const img = document.getElementById("modalImage");
+
+  if (item.image) {
+    img.src = item.image;
+    img.style.display = "block";
+  } else {
+    img.style.display = "none";
   }
+
+  document.getElementById("itemModal").classList.remove("hidden");
+}
+
+function closeModal() {
+  document.getElementById("itemModal").classList.add("hidden");
+}
+
+function deleteItem(type, index) {
+  data[type].splice(index, 1);
+  save();
+  render();
+}
+
+function clearItems() {
+  data = { robux: [], limiteds: [] };
+  save();
+  render();
+}
+
+function save() {
+  localStorage.setItem("shopData", JSON.stringify(data));
+}
+
+function load() {
+  const saved = localStorage.getItem("shopData");
+  const savedTitle = localStorage.getItem("shopTitle");
+  const savedContacts = localStorage.getItem("contacts");
+
+  if (saved) data = JSON.parse(saved);
+  if (savedTitle) document.getElementById("shopTitle").innerText = savedTitle;
+  if (savedContacts) contacts = JSON.parse(savedContacts);
+
+  if (sessionStorage.getItem("loggedIn") === "true") {
+    document.getElementById("ownerPanel").classList.remove("hidden");
+  }
+
+  render();
 }
