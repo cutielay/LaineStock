@@ -85,22 +85,19 @@ function updateTitle() {
 
 function addItem() {
   const name = document.getElementById("itemName").value.trim();
-  const price = document.getElementById("itemPrice").value.trim();
   const image = document.getElementById("itemImage").value.trim();
   const desc = document.getElementById("itemDesc").value.trim();
   const tab = document.getElementById("itemTab").value;
 
-  if (!name || !price) return alert("Add an item name and price.");
+  if (!name) return alert("Add an item name.");
 
   data[tab].push({
     name,
-    price,
     image,
     desc: desc || `${name} is currently listed in LaineStock.`
   });
 
   document.getElementById("itemName").value = "";
-  document.getElementById("itemPrice").value = "";
   document.getElementById("itemImage").value = "";
   document.getElementById("itemDesc").value = "";
 
@@ -148,7 +145,6 @@ function renderGrid(type, gridId) {
       card.innerHTML = `
         ${item.image ? `<img src="${item.image}" alt="${item.name}">` : `<div class="fallback-icon">💎</div>`}
         <h2>${item.name}</h2>
-        <p>${item.price}</p>
       `;
 
       grid.appendChild(card);
@@ -166,7 +162,6 @@ function renderManage() {
 
       div.innerHTML = `
         <strong>${item.name}</strong><br>
-        <small>${item.price}</small><br><br>
       `;
 
       const btn = document.createElement("button");
@@ -183,7 +178,6 @@ function openItem(type, index) {
   const item = data[type][index];
 
   document.getElementById("modalTitle").innerText = item.name;
-  document.getElementById("modalPrice").innerText = item.price;
   document.getElementById("modalDescription").innerText = item.desc;
 
   const img = document.getElementById("modalImage");
