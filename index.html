@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LAINESTOCK</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
 <div id="loader">
   <div class="loader-content">
     <div class="crown">♛</div>
@@ -19,22 +29,22 @@
     </div>
 
     <div class="top-tabs">
-      <button class="tab-btn active" onclick="switchTab(event,'robux')">Robux Rates</button>
-      <button class="tab-btn" onclick="switchTab(event,'limiteds')">Limited Items</button>
-      <button class="tab-btn" onclick="switchTab(event,'contacts')">Contact Seller</button>
-      <button class="tab-btn" onclick="showLoginBox()">Owner</button>
+      <button class="tab-btn active" data-tab="robux">Robux Rates</button>
+      <button class="tab-btn" data-tab="limiteds">Limited Items</button>
+      <button class="tab-btn" data-tab="contacts">Contact Seller</button>
+      <button class="tab-btn" id="ownerBtn">Owner</button>
     </div>
 
     <div id="loginBox" class="hidden login-inline">
       <input type="password" id="password" placeholder="Owner password">
-      <button onclick="login()">Login</button>
+      <button id="loginBtn">Login</button>
       <p id="error"></p>
     </div>
   </header>
 
   <main class="main">
     <div class="search">
-      <input id="searchInput" oninput="render()" placeholder="Search items...">
+      <input id="searchInput" placeholder="Search items...">
     </div>
 
     <section id="robux" class="page active">
@@ -63,11 +73,11 @@
   </main>
 
   <aside id="ownerPanel" class="owner-panel hidden">
-    <button class="close" onclick="closeOwner()">×</button>
+    <button class="close" id="closeOwnerBtn">×</button>
     <h2>Owner Panel</h2>
 
     <input id="titleInput" placeholder="Shop name">
-    <button onclick="updateTitle()">Update Shop Name</button>
+    <button id="updateTitleBtn">Update Shop Name</button>
 
     <div class="line"></div>
 
@@ -82,7 +92,7 @@
       <option value="limiteds">Limiteds</option>
     </select>
 
-    <button onclick="addItem()">Add Item</button>
+    <button id="addItemBtn">Add Item</button>
 
     <div class="line"></div>
 
@@ -91,20 +101,20 @@
     <input id="discordInput" placeholder="Discord info">
     <input id="twitterInput" placeholder="Twitter info">
     <textarea id="extraInput" placeholder="Extra contact message"></textarea>
-    <button onclick="updateContacts()">Update Contacts</button>
+    <button id="updateContactsBtn">Update Contacts</button>
 
     <div class="line"></div>
 
     <h3>Manage Items</h3>
     <div id="manageItems"></div>
 
-    <button class="danger" onclick="clearItems()">Clear All Items</button>
+    <button class="danger" id="clearItemsBtn">Clear All Items</button>
   </aside>
 </div>
 
 <div id="itemModal" class="modal hidden">
   <div class="modal-card">
-    <button class="modal-close" onclick="closeModal()">×</button>
+    <button class="modal-close" id="closeModalBtn">×</button>
     <img id="modalImage" src="" alt="">
     <h2 id="modalTitle"></h2>
     <p id="modalPrice"></p>
@@ -113,3 +123,7 @@
     </div>
   </div>
 </div>
+
+<script src="script.js"></script>
+</body>
+</html>
