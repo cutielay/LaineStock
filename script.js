@@ -36,12 +36,20 @@ let contacts = {
 };
 
 window.addEventListener("load", () => {
-  load();
+  try {
+    load();
+  } catch (error) {
+    console.error("Load error:", error);
+  }
+
+  hideLoader();
+});
+
+function hideLoader() {
+  const loader = document.getElementById("loader");
+  if (!loader) return;
 
   setTimeout(() => {
-    const loader = document.getElementById("loader");
-    if (!loader) return;
-
     loader.style.opacity = "0";
     loader.style.transition = ".5s";
 
@@ -49,7 +57,13 @@ window.addEventListener("load", () => {
       loader.style.display = "none";
     }, 500);
   }, 1800);
-});
+}
+
+/* Backup: removes loader even if Firebase breaks */
+setTimeout(() => {
+  const loader = document.getElementById("loader");
+  if (loader) loader.style.display = "none";
+}, 4000);
 
 async function hashPassword(password) {
   const encoder = new TextEncoder();
@@ -239,34 +253,46 @@ function clearItems() {
 }
 
 async function save() {
-  await setDoc(shopRef, {
-    data: data,
-    contacts: contacts,
-    title: document.getElementById("shopTitle").innerText
-  });
+  try {
+    await setDoc(shopRef, {
+      data: data,
+      contacts: contacts,
+      title: document.getElementById("shopTitle").innerText
+    });
+  } catch (error) {
+    console.error("Save error:", error);
+    alert("Could not save. Check Firebase rules/settings.");
+  }
 }
 
 function load() {
-  onSnapshot(shopRef, snapshot => {
-    if (snapshot.exists()) {
-      const saved = snapshot.data();
+  onSnapshot(
+    shopRef,
+    snapshot => {
+      if (snapshot.exists()) {
+        const saved = snapshot.data();
 
-      if (saved.data) data = saved.data;
-      if (saved.contacts) contacts = saved.contacts;
-      if (saved.title) {
-        document.getElementById("shopTitle").innerText = saved.title;
+        if (saved.data) data = saved.data;
+        if (saved.contacts) contacts = saved.contacts;
+        if (saved.title) {
+          document.getElementById("shopTitle").innerText = saved.title;
+        }
       }
-    }
 
-    if (sessionStorage.getItem("loggedIn") === "true") {
-      document.getElementById("ownerPanel").classList.remove("hidden");
-    }
+      if (sessionStorage.getItem("loggedIn") === "true") {
+        document.getElementById("ownerPanel").classList.remove("hidden");
+      }
 
-    render();
-  });
+      render();
+    },
+    error => {
+      console.error("Firebase load error:", error);
+      render();
+    }
+  );
 }
 
-/* Needed because script.js is now type="module" */
+/* Needed because script.js is type="module" */
 window.switchTab = switchTab;
 window.showLoginBox = showLoginBox;
 window.login = login;
