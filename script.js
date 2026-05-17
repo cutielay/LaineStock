@@ -8,7 +8,13 @@ let data = {
       desc: "STOCK 93K."
     }
   ],
-  limiteds: []
+  limiteds: [
+     {
+      name: "Super Super Happy Face",
+      image: "https://tr.rbxcdn.com/180DAY-c23824ccd04260f4261de2d2d2aa43a9/420/420/Face/Webp/noFilter",
+      desc: "RAP: 100,733 PRICE: 108,900 ROBUX"
+    }
+  ]
 };
 
 let contacts = {
