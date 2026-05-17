@@ -1,121 +1,115 @@
-<script type="module" src="script.js"></script>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LaineStock</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-  <div class="bg"></div>
-
-  <div class="app">
-    <header class="top-header">
-      <div class="logo">
-        <div>♛</div>
-        <h2 id="shopTitle">LAINESTOCK</h2>
-        <p>ROBLOX SHOP</p>
-      </div>
-
-      <div class="top-tabs">
-        <button class="tab-btn active" onclick="switchTab(event,'robux')">Robux Rates</button>
-        <button class="tab-btn" onclick="switchTab(event,'limiteds')">Limited Items</button>
-        <button class="tab-btn" onclick="switchTab(event,'contacts')">Contact Seller</button>
-        <button class="tab-btn" onclick="showLoginBox()">Owner</button>
-      </div>
-
-      <div id="loginBox" class="hidden login-inline">
-        <input type="password" id="password" placeholder="Owner password">
-        <button onclick="login()">Login</button>
-        <p id="error"></p>
-      </div>
-    </header>
-
-    <main class="main">
-      <div class="search">
-        <input id="searchInput" oninput="render()" placeholder="Search items...">
-      </div>
-
-      <section id="robux" class="page active">
-        <h1>⬡ Robux Shop</h1>
-        <p class="subtitle">Click an item to view details.</p>
-        <div class="grid" id="robuxGrid"></div>
-      </section>
-
-      <section id="limiteds" class="page">
-        <h1>◇ Limited Items</h1>
-        <p class="subtitle">Click a limited to view information.</p>
-        <div class="grid" id="limitedsGrid"></div>
-      </section>
-
-      <section id="contacts" class="page">
-        <h1>✉ Contact Seller</h1>
-        <p class="subtitle">Contact information</p>
-
-        <div class="contact-box">
-          <h2 id="contactTitle">Contact Me</h2>
-          <p id="discordText">Discord: yourname</p>
-          <p id="twitterText">Twitter: @handle</p>
-          <p id="extraText">Message me for prices, stock, and questions.</p>
-        </div>
-      </section>
-    </main>
-
-    <aside id="ownerPanel" class="owner-panel hidden">
-      <button class="close" onclick="closeOwner()">×</button>
-      <h2>Owner Panel</h2>
-
-      <input id="titleInput" placeholder="Shop name">
-      <button onclick="updateTitle()">Update Shop Name</button>
-
-      <div class="line"></div>
-
-      <h3>Add / Edit Items</h3>
-      <input id="itemName" placeholder="Item name">
-      <input id="itemPrice" placeholder="Price / RAP">
-      <input id="itemImage" placeholder="Image URL">
-      <textarea id="itemDesc" placeholder="Item description / info"></textarea>
-
-      <select id="itemTab">
-        <option value="robux">Robux</option>
-        <option value="limiteds">Limiteds</option>
-      </select>
-
-      <button onclick="addItem()">Add Item</button>
-
-      <div class="line"></div>
-
-      <h3>Edit Contact Tab</h3>
-      <input id="contactTitleInput" placeholder="Contact title">
-      <input id="discordInput" placeholder="Discord info">
-      <input id="twitterInput" placeholder="Twitter info">
-      <textarea id="extraInput" placeholder="Extra contact message"></textarea>
-      <button onclick="updateContacts()">Update Contacts</button>
-
-      <div class="line"></div>
-
-      <h3>Manage Items</h3>
-      <div id="manageItems"></div>
-
-      <button class="danger" onclick="clearItems()">Clear All Items</button>
-    </aside>
+<div id="loader">
+  <div class="loader-content">
+    <div class="crown">✦</div>
+    <h1>LAINESTOCK</h1>
+    <p>ROBLOX PREMIUM SHOP</p>
+    <span>Loading your experience...</span>
+    <div class="load-bar"><div></div></div>
   </div>
+</div>
 
-  <div id="itemModal" class="modal hidden">
-    <div class="modal-card">
-      <button class="modal-close" onclick="closeModal()">×</button>
-      <img id="modalImage" src="" alt="">
-      <h2 id="modalTitle"></h2>
-      <p id="modalPrice"></p>
-      <div class="modal-info">
-        <p id="modalDescription"></p>
+<div class="crosshair"></div>
+<div class="bg"></div>
+
+<div class="app">
+  <header class="top-header">
+    <div class="logo">
+      <div>✦</div>
+      <h2 id="shopTitle">LAINESTOCK</h2>
+      <p>ROBLOX SHOP</p>
+    </div>
+
+    <div class="top-tabs">
+      <button class="tab-btn active" onclick="switchTab(event,'robux')">Robux Rates</button>
+      <button class="tab-btn" onclick="switchTab(event,'limiteds')">Limited Items</button>
+      <button class="tab-btn" onclick="switchTab(event,'contacts')">Contact Seller</button>
+      <button class="tab-btn" onclick="showLoginBox()">Owner</button>
+      <button class="theme-toggle" onclick="toggleDark()">🌙 Dark Mode</button>
+    </div>
+
+    <div id="loginBox" class="hidden login-inline">
+      <input type="password" id="password" placeholder="Owner password">
+      <button onclick="login()">Login</button>
+      <p id="error"></p>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="search">
+      <input id="searchInput" oninput="render()" placeholder="Search items...">
+    </div>
+
+    <section id="robux" class="page active">
+      <h1>Robux Shop</h1>
+      <p class="subtitle">Click an item to view details.</p>
+      <div class="grid" id="robuxGrid"></div>
+    </section>
+
+    <section id="limiteds" class="page">
+      <h1>Limited Items</h1>
+      <p class="subtitle">Click a limited to view information.</p>
+      <div class="grid" id="limitedsGrid"></div>
+    </section>
+
+    <section id="contacts" class="page">
+      <h1>Contact Seller</h1>
+      <div class="contact-box">
+        <h2 id="contactTitle">Contact Me</h2>
+        <p id="discordText">Discord: yourname</p>
+        <p id="twitterText">Twitter: @handle</p>
+        <p id="extraText">Message me for prices, stock, and questions.</p>
       </div>
+    </section>
+  </main>
+
+  <aside id="ownerPanel" class="owner-panel hidden">
+    <button class="close" onclick="closeOwner()">×</button>
+    <h2>Owner Panel</h2>
+
+    <input id="titleInput" placeholder="Shop name">
+    <button onclick="updateTitle()">Update Shop Name</button>
+
+    <div class="line"></div>
+
+    <h3>Add Items</h3>
+    <input id="itemName" placeholder="Item name">
+    <input id="itemPrice" placeholder="Price / RAP">
+    <input id="itemImage" placeholder="Image URL">
+    <textarea id="itemDesc" placeholder="Item description / info"></textarea>
+
+    <select id="itemTab">
+      <option value="robux">Robux</option>
+      <option value="limiteds">Limiteds</option>
+    </select>
+
+    <button onclick="addItem()">Add Item</button>
+
+    <div class="line"></div>
+
+    <h3>Edit Contact Tab</h3>
+    <input id="contactTitleInput" placeholder="Contact title">
+    <input id="discordInput" placeholder="Discord info">
+    <input id="twitterInput" placeholder="Twitter info">
+    <textarea id="extraInput" placeholder="Extra contact message"></textarea>
+    <button onclick="updateContacts()">Update Contacts</button>
+
+    <div class="line"></div>
+
+    <h3>Manage Items</h3>
+    <div id="manageItems"></div>
+
+    <button class="danger" onclick="clearItems()">Clear All Items</button>
+  </aside>
+</div>
+
+<div id="itemModal" class="modal hidden">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <img id="modalImage" src="" alt="">
+    <h2 id="modalTitle"></h2>
+    <p id="modalPrice"></p>
+    <div class="modal-info">
+      <p id="modalDescription"></p>
     </div>
   </div>
-
-  <script type="module" src="script.js"></script>
-</body>
-</html>
+</div>
