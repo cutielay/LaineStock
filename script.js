@@ -40,30 +40,9 @@ window.addEventListener("load", () => {
     load();
   } catch (error) {
     console.error("Load error:", error);
+    render();
   }
-
-  hideLoader();
 });
-
-function hideLoader() {
-  const loader = document.getElementById("loader");
-  if (!loader) return;
-
-  setTimeout(() => {
-    loader.style.opacity = "0";
-    loader.style.transition = ".5s";
-
-    setTimeout(() => {
-      loader.style.display = "none";
-    }, 500);
-  }, 1800);
-}
-
-/* Backup: removes loader even if Firebase breaks */
-setTimeout(() => {
-  const loader = document.getElementById("loader");
-  if (loader) loader.style.display = "none";
-}, 4000);
 
 async function hashPassword(password) {
   const encoder = new TextEncoder();
@@ -187,7 +166,8 @@ function renderGrid(type, gridId) {
         <div class="card" onclick="openItem('${type}', ${index})">
           ${
             item.image
-              ? `<img src="${item.image}">`
+              ? `<img src="${item.image}">
+`
               : `<div class="fallback-icon">💎</div>`
           }
           <h2>${item.name}</h2>
@@ -292,7 +272,6 @@ function load() {
   );
 }
 
-/* Needed because script.js is type="module" */
 window.switchTab = switchTab;
 window.showLoginBox = showLoginBox;
 window.login = login;
