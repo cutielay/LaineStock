@@ -7,9 +7,9 @@ let data = {
 
 let contacts = {
   title: "Contact Me",
-  discord: "Discord: yourname",
-  twitter: "Twitter: @handle",
-  extra: "Message me for prices, stock, and questions."
+  discord: "Discord: cutielay",
+  twitter: "Twitter: @Lainepws",
+  extra: "DM me on discord for faster reply time!"
 };
 
 window.addEventListener("load", () => {
