@@ -1,3 +1,25 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCOwIXGEWKqZY1mGLeEeNNOKLEfsezzLwI",
+  authDomain: "lainestocks.firebaseapp.com",
+  projectId: "lainestocks",
+  storageBucket: "lainestocks.firebasestorage.app",
+  messagingSenderId: "179086045996",
+  appId: "1:179086045996:web:bf7e742d3d5957b48e7289",
+  measurementId: "G-YW5TFHQC0P"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const shopRef = doc(db, "shop", "mainData");
+
 const HASHED_PASSWORD =
   "3d903b3df0d97f4a4d0efdd93a1bb4e777e02f4f4b92cf1db5fc905c82c5d7c8";
 
@@ -17,20 +39,22 @@ window.addEventListener("load", () => {
   load();
 
   setTimeout(() => {
-    document.getElementById("loader").style.opacity = "0";
-    document.getElementById("loader").style.transition = ".5s";
+    const loader = document.getElementById("loader");
+    if (!loader) return;
+
+    loader.style.opacity = "0";
+    loader.style.transition = ".5s";
 
     setTimeout(() => {
-      document.getElementById("loader").style.display = "none";
+      loader.style.display = "none";
     }, 500);
   }, 1800);
 });
 
 async function hashPassword(password) {
   const encoder = new TextEncoder();
-  const data = encoder.encode(password);
-
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const encoded = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", encoded);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
 
   return hashArray
@@ -58,7 +82,6 @@ function showLoginBox() {
   document.getElementById("loginBox").classList.toggle("hidden");
 }
 
-// Updated login with hidden password
 async function login() {
   const pass = document.getElementById("password").value;
   const hashedInput = await hashPassword(pass);
@@ -79,11 +102,10 @@ function closeOwner() {
 
 function updateTitle() {
   const val = document.getElementById("titleInput").value.trim();
-
   if (!val) return;
 
   document.getElementById("shopTitle").innerText = val;
-  localStorage.setItem("shopTitle", val);
+  save();
 }
 
 function addItem() {
@@ -108,7 +130,6 @@ function addItem() {
   document.getElementById("itemDesc").value = "";
 
   save();
-  render();
 }
 
 function updateContacts() {
@@ -117,14 +138,12 @@ function updateContacts() {
   contacts.twitter = document.getElementById("twitterInput").value.trim() || contacts.twitter;
   contacts.extra = document.getElementById("extraInput").value.trim() || contacts.extra;
 
-  localStorage.setItem("contacts", JSON.stringify(contacts));
-
-  renderContacts();
-
   document.getElementById("contactTitleInput").value = "";
   document.getElementById("discordInput").value = "";
   document.getElementById("twitterInput").value = "";
   document.getElementById("extraInput").value = "";
+
+  save();
 }
 
 function renderContacts() {
@@ -154,8 +173,8 @@ function renderGrid(type, gridId) {
         <div class="card" onclick="openItem('${type}', ${index})">
           ${
             item.image
-            ? `<img src="${item.image}">`
-            : `<div class="fallback-icon">💎</div>`
+              ? `<img src="${item.image}">`
+              : `<div class="fallback-icon">💎</div>`
           }
           <h2>${item.name}</h2>
           <p>${item.price}</p>
@@ -208,7 +227,6 @@ function closeModal() {
 function deleteItem(type, index) {
   data[type].splice(index, 1);
   save();
-  render();
 }
 
 function clearItems() {
@@ -218,25 +236,46 @@ function clearItems() {
   };
 
   save();
-  render();
 }
 
-function save() {
-  localStorage.setItem("shopData", JSON.stringify(data));
+async function save() {
+  await setDoc(shopRef, {
+    data: data,
+    contacts: contacts,
+    title: document.getElementById("shopTitle").innerText
+  });
 }
 
 function load() {
-  const saved = localStorage.getItem("shopData");
-  const savedTitle = localStorage.getItem("shopTitle");
-  const savedContacts = localStorage.getItem("contacts");
+  onSnapshot(shopRef, snapshot => {
+    if (snapshot.exists()) {
+      const saved = snapshot.data();
 
-  if (saved) data = JSON.parse(saved);
-  if (savedTitle) document.getElementById("shopTitle").innerText = savedTitle;
-  if (savedContacts) contacts = JSON.parse(savedContacts);
+      if (saved.data) data = saved.data;
+      if (saved.contacts) contacts = saved.contacts;
+      if (saved.title) {
+        document.getElementById("shopTitle").innerText = saved.title;
+      }
+    }
 
-  if (sessionStorage.getItem("loggedIn") === "true") {
-    document.getElementById("ownerPanel").classList.remove("hidden");
-  }
+    if (sessionStorage.getItem("loggedIn") === "true") {
+      document.getElementById("ownerPanel").classList.remove("hidden");
+    }
 
-  render();
+    render();
+  });
 }
+
+/* Needed because script.js is now type="module" */
+window.switchTab = switchTab;
+window.showLoginBox = showLoginBox;
+window.login = login;
+window.closeOwner = closeOwner;
+window.updateTitle = updateTitle;
+window.addItem = addItem;
+window.updateContacts = updateContacts;
+window.openItem = openItem;
+window.closeModal = closeModal;
+window.deleteItem = deleteItem;
+window.clearItems = clearItems;
+window.render = render;
