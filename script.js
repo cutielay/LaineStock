@@ -3,8 +3,7 @@ const OWNER_PASSWORD = "test123";
 let data = {
   robux: [
     {
-      name: "3.4 PER 300 ROBUX",
-      price: "$3.40",
+      name: "3.40 PER 300 ROBUX",
       image: "https://cdn.discordapp.com/attachments/1489349597632663723/1505717371757789184/Robux_2019_Logo_gold.svg.png?ex=6a0ba414&is=6a0a5294&hm=1f4ea223a596e0e7c600591485f6ac13af766e4aade25d89f4dbacc6e2ba28bb&",
       desc: "STOCK 93K."
     }
