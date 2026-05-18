@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <title>♛ LAINESTOCK</title>
+  <title>♛ LAINESTOCK</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -124,6 +124,33 @@
   </div>
 </div>
 
-<script src="script.js"></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCOwIXGEWKqZY1mGLeEeNNOKLEfsezzLwI",
+    authDomain: "lainestocks.firebaseapp.com",
+    projectId: "lainestocks",
+    storageBucket: "lainestocks.firebasestorage.app",
+    messagingSenderId: "179086045996",
+    appId: "1:179086045996:web:bf7e742d3d5957b48e7289",
+    measurementId: "G-YW5TFHQC0P"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.shopRef = doc(db, "shop", "mainData");
+  window.setDoc = setDoc;
+  window.onSnapshot = onSnapshot;
+</script>
+
+<script type="module" src="script.js"></script>
 </body>
 </html>
